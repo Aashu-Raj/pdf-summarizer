@@ -6,10 +6,9 @@ A powerful AI-powered PDF document search and question-answering application bui
 
 - **PDF Document Upload**: Upload multiple PDF files at once
 - **AI-Powered Search**: Ask questions about your documents using OpenAI GPT models
-- **Vector Database**: Uses ChromaDB for efficient document indexing and retrieval
 - **Source References**: Get answers with source document references
 - **Multiple Model Support**: Choose between GPT-3.5-turbo, GPT-4, and GPT-4-turbo-preview
-- **Interactive UI**: Clean and intuitive Streamlit interface
+- **Interactive UI**: Clean and seamless Streamlit interface
 - **Real-time Processing**: Live document processing with progress indicators
 
 ## How It Works
@@ -93,12 +92,12 @@ streamlit run main.py
 
 ```
 pdf-summarizer/
-├── main.py              # Main application file
-├── requirements.txt     # Python dependencies
+├── main.py              # Entry point: Streamlit application
+├── requirements.txt     # List of Python dependencies
 ├── .env                 # Environment variables (create this)
-├── db/                  # Vector database storage
-├── docs/                # Uploaded PDF files
-└── README.md            # This file
+├── db/                  # Vector database storage (auto-created when running the app)
+├── docs/                # Directory for uploaded PDF files (auto-created on upload)
+└── README.md            # Project documentation
 ```
 
 ## API Key Setup
