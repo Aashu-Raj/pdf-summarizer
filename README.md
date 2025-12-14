@@ -69,9 +69,9 @@ streamlit run main.py
 
 ### Model Settings
 
-- **Model Selection**: Choose between GPT-3.5-turbo, GPT-4, or GPT-4-turbo-preview
-- **Temperature**: Adjust creativity level (0.0 = focused, 1.0 = creative)
-- **Max Tokens**: Control response length
+- **Model**: GPT-3.5-turbo
+- **Temperature**: 0.2
+- **Max Tokens**: 1024
 
 ### Document Processing
 
@@ -82,7 +82,7 @@ streamlit run main.py
 ## Technical Stack
 
 - **Frontend**: Streamlit
-- **AI Models**: OpenAI GPT-3.5-turbo/GPT-4
+- **AI Models**: OpenAI GPT-3.5-turbo
 - **Vector Database**: ChromaDB
 - **Document Processing**: LangChain
 - **PDF Processing**: PDFMiner
