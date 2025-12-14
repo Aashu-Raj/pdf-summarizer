@@ -33,7 +33,7 @@ def llm_pipeline():
     llm = ChatOpenAI(
         model="gpt-3.5-turbo",
         temperature=0.2,
-        max_tokens=256,
+        max_tokens=1024,
         api_key=openai.api_key
     )
     return llm
