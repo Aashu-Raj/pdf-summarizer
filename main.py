@@ -221,9 +221,9 @@ st.subheader("📚 Document Upload & Processing")
 # File uploader
 uploaded_files = st.file_uploader(
     "Choose PDF files",
-    type=['pdf'],
-    accept_multiple_files=True,
-    help="Upload one or more PDF files to search through"
+    type=None,
+    accept_multiple_files=[True, 'directory'],
+    # help="Upload one or more PDF files to search through"
 )
 
 # Show uploaded files
@@ -266,7 +266,6 @@ if process_btn and uploaded_files:
     with st.spinner("🤖 Processing documents... This may take a while depending on the number and size of PDFs."):
         success = process_uploaded_documents(uploaded_files)
         if success:
-            st.balloons()
             # Clear the cache to reload the QA system with new documents
             st.cache_resource.clear()
 
@@ -287,13 +286,13 @@ if os.path.exists(persist_directory):
             placeholder="Example: What are the main topics discussed in these documents?"
         )
     
-    with settings_col:
-        st.markdown("**⚙️ Settings**")
-        model_choice = st.selectbox(
-            "Model:",
-            ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo-preview"],
-            help="Choose the OpenAI model to use"
-        )
+    # with settings_col:
+    #     st.markdown("**⚙️ Settings**")
+    #     model_choice = st.selectbox(
+    #         "Model:",
+    #         ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo-preview"],
+    #         help="Choose the OpenAI model to use"
+    #     )
         
         temperature = st.slider(
             "Creativity:",
