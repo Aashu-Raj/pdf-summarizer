@@ -32,7 +32,7 @@ def llm_pipeline():
     """Initialize the OpenAI LLM pipeline"""
     llm = ChatOpenAI(
         model="gpt-3.5-turbo",
-        temperature=0.3,
+        temperature=0.2,
         max_tokens=256,
         api_key=openai.api_key
     )
@@ -221,8 +221,8 @@ st.subheader("📚 Document Upload & Processing")
 # File uploader
 uploaded_files = st.file_uploader(
     "Choose PDF files",
-    type=None,
-    accept_multiple_files=[True, 'directory'],
+    type="pdf",
+    accept_multiple_files=True,
     # help="Upload one or more PDF files to search through"
 )
 
@@ -284,23 +284,6 @@ if os.path.exists(persist_directory):
             "Enter your question about the documents:", 
             height=100,
             placeholder="Example: What are the main topics discussed in these documents?"
-        )
-    
-    # with settings_col:
-    #     st.markdown("**⚙️ Settings**")
-    #     model_choice = st.selectbox(
-    #         "Model:",
-    #         ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo-preview"],
-    #         help="Choose the OpenAI model to use"
-    #     )
-        
-        temperature = st.slider(
-            "Creativity:",
-            min_value=0.0,
-            max_value=1.0,
-            value=0.3,
-            step=0.1,
-            help="Lower = more focused, Higher = more creative"
         )
     
     # Search button
