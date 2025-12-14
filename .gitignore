@@ -1,2 +1,4 @@
 myenv
 .env
+db
+docs
