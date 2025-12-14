@@ -7,7 +7,6 @@ A powerful AI-powered PDF document search and question-answering application bui
 - **PDF Document Upload**: Upload multiple PDF files at once
 - **AI-Powered Search**: Ask questions about your documents using OpenAI GPT models
 - **Source References**: Get answers with source document references
-- **Multiple Model Support**: Choose between GPT-3.5-turbo, GPT-4, and GPT-4-turbo-preview
 - **Interactive UI**: Clean and seamless Streamlit interface
 - **Real-time Processing**: Live document processing with progress indicators
 
