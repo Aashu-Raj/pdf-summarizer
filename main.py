@@ -2,30 +2,29 @@ import streamlit as st
 import openai
 import os
 from dotenv import load_dotenv
-from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 from langchain_community.document_loaders import PDFMinerLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chromadb.config import Settings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import tempfile
 import shutil
+import auth
+import auth_db
+import admin
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Initialize the authentication database
+auth_db.init_db()
 
 # Get OpenAI API key from environment
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 persist_directory = "db"
 
-# Define CHROMA_SETTINGS directly
-CHROMA_SETTINGS = Settings(
-    chroma_db_impl='duckdb+parquet',
-    persist_directory="db",
-    anonymized_telemetry=False
-)
+
 
 @st.cache_resource
 def llm_pipeline():
@@ -143,7 +142,10 @@ def process_uploaded_documents(uploaded_files):
     try:
         # Remove existing database if it exists
         if os.path.exists(persist_directory):
+            st.cache_resource.clear()  # Release ChromaDB file lock before deletion
             shutil.rmtree(persist_directory)
+        
+        os.makedirs(persist_directory, exist_ok=True)
         
         # Create new database
         db = Chroma.from_documents(
@@ -161,6 +163,7 @@ def process_uploaded_documents(uploaded_files):
 def clear_database():
     """Clear the existing vector database"""
     if os.path.exists(persist_directory):
+        st.cache_resource.clear()  # Release ChromaDB file lock before deletion
         shutil.rmtree(persist_directory)
         st.success("🗑️ Database cleared successfully!")
     
@@ -171,6 +174,13 @@ def clear_database():
 # =============================================================================
 # STREAMLIT UI
 # =============================================================================
+
+# --- Authentication Gate ---
+if not auth.is_authenticated():
+    auth.show_auth_page()
+    st.stop()
+
+# --- User is authenticated from here ---
 
 st.title('🔍 Search your PDF with OpenAI')
 
@@ -331,6 +341,22 @@ else:
 
 # Sidebar with system information
 with st.sidebar:
+    # --- User Info & Logout ---
+    current_user = auth.get_current_user()
+    st.markdown(f"👤 Logged in as **{current_user['full_name']}**")
+    st.caption(f"Role: {current_user['role'].title()}")
+    
+    if st.button("🚪 Logout", use_container_width=True):
+        auth.logout()
+        st.rerun()
+    
+    st.divider()
+    
+    # --- Admin Panel (only for admins) ---
+    if current_user['role'] == 'admin':
+        admin.show_admin_panel()
+        st.divider()
+    
     st.header("🛠️ System Status")
     
     # Show API key status
