@@ -2,3 +2,4 @@ myenv
 .env
 db
 docs
+users.db

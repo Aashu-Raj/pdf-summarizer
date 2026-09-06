@@ -2,7 +2,7 @@ langchain
 streamlit
 transformers
 requests
-torch
+# torch
 einops
 accelerate
 bitsandbytes
