@@ -12,3 +12,6 @@ sentence-transformers
 chromadb
 openai
 constants
+mysql-connector-python
+bcrypt
+python-dotenv
