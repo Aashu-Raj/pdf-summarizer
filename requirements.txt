@@ -1,5 +1,4 @@
 langchain
-streamlit
 transformers
 requests
 # torch
@@ -15,3 +14,12 @@ constants
 mysql-connector-python
 bcrypt
 python-dotenv
+fastapi
+uvicorn[standard]
+python-multipart
+python-jose[cryptography]
+langchain-community
+langchain-openai
+langchain-text-splitters
+langchain-classic
+pydantic
