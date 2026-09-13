@@ -38,7 +38,7 @@ MYSQL_HOST=localhost
 MYSQL_PORT=3306
 MYSQL_USER=root
 MYSQL_PASSWORD=your_password
-MYSQL_DATABASE=pdf_summarizer
+MYSQL_DATABASE=your_database_name
 JWT_SECRET=change-me-in-production
 ```
 
