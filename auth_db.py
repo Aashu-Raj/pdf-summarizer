@@ -17,7 +17,7 @@ def get_connection():
 
 
 def init_db():
-    """Initialize the database and create tables. Seed default admin if needed."""
+    """Initialize the database and create tables. Seed admin from env if needed."""
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -36,23 +36,47 @@ def init_db():
 
     conn.commit()
 
-    # Seed default admin account if no admin exists
+    # Seed admin from env vars when no admin exists (no hardcoded password)
     cursor.execute("SELECT COUNT(*) FROM users WHERE role = %s", ("admin",))
     admin_count = cursor.fetchone()[0]
 
     if admin_count == 0:
+        admin_password = os.getenv("ADMIN_PASSWORD")
+        if not admin_password:
+            cursor.close()
+            conn.close()
+            raise ValueError(
+                "No admin user found and ADMIN_PASSWORD is not set. "
+                "Add ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_EMAIL, and ADMIN_FULL_NAME to your .env file."
+            )
         _create_user_internal(
             conn,
-            username="admin",
-            email="admin@company.com",
-            full_name="Administrator",
-            password="REDACTED",
+            username=os.getenv("ADMIN_USERNAME", "admin"),
+            email=os.getenv("ADMIN_EMAIL", "admin@company.com"),
+            full_name=os.getenv("ADMIN_FULL_NAME", "Administrator"),
+            password=admin_password,
             role="admin",
             status="approved",
         )
 
     cursor.close()
     conn.close()
+
+
+def update_user_password(username, new_password):
+    """Update a user's password hash. Returns True if a row was updated."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    password_hash = _hash_password(new_password)
+    cursor.execute(
+        "UPDATE users SET password_hash = %s WHERE username = %s",
+        (password_hash, username),
+    )
+    conn.commit()
+    affected = cursor.rowcount
+    cursor.close()
+    conn.close()
+    return affected > 0
 
 
 def _hash_password(password):

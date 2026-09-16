@@ -61,6 +61,10 @@ MYSQL_PORT=3306
 MYSQL_USER=root
 MYSQL_PASSWORD=your_password
 MYSQL_DATABASE=pdf_summarizer
+ADMIN_USERNAME=admin
+ADMIN_EMAIL=admin@company.com
+ADMIN_FULL_NAME=Administrator
+ADMIN_PASSWORD=your_secure_admin_password
 ```
 
 6. Run the application:
@@ -68,7 +72,7 @@ MYSQL_DATABASE=pdf_summarizer
 streamlit run main.py
 ```
 
-On first run, `init_db()` creates the `users` table and seeds a default admin account (`admin` / `REDACTED`). Change that password after first login.
+On first run, `init_db()` creates the `users` table and seeds an admin account using `ADMIN_*` values from `.env`. Never commit real admin credentials to the repository.
 
 ## Usage
 
@@ -124,3 +128,4 @@ pdf-summarizer/
 2. Create a `.env` file in the project root
 3. Add your API key: `OPENAI_API_KEY=sk-your-actual-api-key-here`
 4. Add MySQL connection settings (`MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`)
+5. Add admin seed settings (`ADMIN_USERNAME`, `ADMIN_EMAIL`, `ADMIN_FULL_NAME`, `ADMIN_PASSWORD`) — keep these only in `.env`
